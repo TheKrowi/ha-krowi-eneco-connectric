@@ -5,6 +5,14 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_PORT
+from homeassistant.helpers.selector import (
+    NumberSelector,
+    NumberSelectorConfig,
+    NumberSelectorMode,
+    TextSelector,
+    TextSelectorConfig,
+    TextSelectorType,
+)
 
 from .const import (
     DOMAIN,
@@ -32,7 +40,7 @@ class KrowiPeblarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             host = user_input[CONF_HOST]
-            port = user_input[CONF_PORT]
+            port = int(user_input[CONF_PORT])
 
             # Prevent duplicate entries for the same host:port
             await self.async_set_unique_id(f"{host}:{port}")
@@ -45,24 +53,28 @@ class KrowiPeblarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             else:
                 return self.async_create_entry(
                     title=f"Peblar ({host})",
-                    data=user_input,
+                    data={**user_input, CONF_PORT: port},
                 )
 
         schema = vol.Schema(
             {
-                vol.Required(CONF_HOST): str,
-                vol.Optional(CONF_PORT, default=DEFAULT_PORT): vol.Coerce(int),
-                vol.Optional(CONF_INTERVAL_HIGH, default=DEFAULT_INTERVAL_HIGH): vol.All(
-                    vol.Coerce(int), vol.Range(min=1, max=60)
+                vol.Required(CONF_HOST): TextSelector(
+                    TextSelectorConfig(type=TextSelectorType.TEXT)
                 ),
-                vol.Optional(CONF_INTERVAL_MEDIUM, default=DEFAULT_INTERVAL_MEDIUM): vol.All(
-                    vol.Coerce(int), vol.Range(min=5, max=3600)
+                vol.Required(CONF_PORT, default=DEFAULT_PORT): NumberSelector(
+                    NumberSelectorConfig(min=1, max=65535, step=1, mode=NumberSelectorMode.BOX)
                 ),
-                vol.Optional(CONF_INTERVAL_LOW, default=DEFAULT_INTERVAL_LOW): vol.All(
-                    vol.Coerce(int), vol.Range(min=5, max=3600)
+                vol.Required(CONF_INTERVAL_HIGH, default=DEFAULT_INTERVAL_HIGH): NumberSelector(
+                    NumberSelectorConfig(min=1, max=60, step=1, mode=NumberSelectorMode.BOX)
                 ),
-                vol.Optional(CONF_INTERVAL_VERY_LOW, default=DEFAULT_INTERVAL_VERY_LOW): vol.All(
-                    vol.Coerce(int), vol.Range(min=10, max=3600)
+                vol.Required(CONF_INTERVAL_MEDIUM, default=DEFAULT_INTERVAL_MEDIUM): NumberSelector(
+                    NumberSelectorConfig(min=5, max=3600, step=1, mode=NumberSelectorMode.BOX)
+                ),
+                vol.Required(CONF_INTERVAL_LOW, default=DEFAULT_INTERVAL_LOW): NumberSelector(
+                    NumberSelectorConfig(min=5, max=3600, step=1, mode=NumberSelectorMode.BOX)
+                ),
+                vol.Required(CONF_INTERVAL_VERY_LOW, default=DEFAULT_INTERVAL_VERY_LOW): NumberSelector(
+                    NumberSelectorConfig(min=10, max=3600, step=1, mode=NumberSelectorMode.BOX)
                 ),
             }
         )

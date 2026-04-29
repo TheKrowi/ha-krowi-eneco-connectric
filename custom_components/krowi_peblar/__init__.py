@@ -85,27 +85,27 @@ _VERY_LOW_REGISTERS = [
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Krowi Peblar from a config entry."""
     host = entry.data[CONF_HOST]
-    port = entry.data.get(CONF_PORT, DEFAULT_PORT)
+    port = int(entry.data.get(CONF_PORT, DEFAULT_PORT))
 
     coordinators = {
         PRIORITY_HIGH: KrowiPeblarCoordinator(
             hass, host, port,
-            entry.data.get(CONF_INTERVAL_HIGH, DEFAULT_INTERVAL_HIGH),
+            int(entry.data.get(CONF_INTERVAL_HIGH, DEFAULT_INTERVAL_HIGH)),
             _HIGH_REGISTERS, PRIORITY_HIGH,
         ),
         PRIORITY_MEDIUM: KrowiPeblarCoordinator(
             hass, host, port,
-            entry.data.get(CONF_INTERVAL_MEDIUM, DEFAULT_INTERVAL_MEDIUM),
+            int(entry.data.get(CONF_INTERVAL_MEDIUM, DEFAULT_INTERVAL_MEDIUM)),
             _MEDIUM_REGISTERS, PRIORITY_MEDIUM,
         ),
         PRIORITY_LOW: KrowiPeblarCoordinator(
             hass, host, port,
-            entry.data.get(CONF_INTERVAL_LOW, DEFAULT_INTERVAL_LOW),
+            int(entry.data.get(CONF_INTERVAL_LOW, DEFAULT_INTERVAL_LOW)),
             _LOW_REGISTERS, PRIORITY_LOW,
         ),
         PRIORITY_VERY_LOW: KrowiPeblarCoordinator(
             hass, host, port,
-            entry.data.get(CONF_INTERVAL_VERY_LOW, DEFAULT_INTERVAL_VERY_LOW),
+            int(entry.data.get(CONF_INTERVAL_VERY_LOW, DEFAULT_INTERVAL_VERY_LOW)),
             _VERY_LOW_REGISTERS, PRIORITY_VERY_LOW,
         ),
     }
