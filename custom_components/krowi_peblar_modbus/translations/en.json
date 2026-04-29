@@ -19,5 +19,21 @@
     "abort": {
       "already_configured": "This Peblar charger is already configured."
     }
+  },
+  "entity": {
+    "sensor": {
+      "cp_state": {
+        "state": {
+          "A": "No EV connected",
+          "B": "EV connected, suspended",
+          "C": "EV connected, charging",
+          "D": "EV connected, charging (ventilation requested)",
+          "E": "Error (short to PE or powered off)",
+          "F": "Fault",
+          "I": "Invalid CP level",
+          "U": "Unknown"
+        }
+      }
+    }
   }
 }
