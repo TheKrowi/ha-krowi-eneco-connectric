@@ -1,4 +1,4 @@
-"""Krowi Peblar EV Charger integration."""
+"""Krowi Peblar Modbus integration."""
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
@@ -122,7 +122,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     vl_data = coordinators[PRIORITY_VERY_LOW].data or {}
     device_info = DeviceInfo(
         identifiers={(DOMAIN, entry.entry_id)},
-        name="Peblar EV Charger",
+        name="Peblar Modbus",
         manufacturer="Peblar",
         model=vl_data.get("sProductNumberAddress"),
         sw_version=vl_data.get("sFwIdentifierAddress"),

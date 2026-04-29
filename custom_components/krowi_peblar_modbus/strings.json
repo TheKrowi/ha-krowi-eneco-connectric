@@ -2,7 +2,7 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect to Peblar EV Charger",
+        "title": "Connect to Peblar Modbus",
         "data": {
           "host": "IP Address or Hostname",
           "port": "Modbus TCP Port",

@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class KrowiPeblarCoordinator(DataUpdateCoordinator[dict]):
-    """Polls all readable Modbus registers from a Peblar EV charger."""
+    """Polls all readable Modbus registers from a Peblar charger."""
 
     def __init__(
         self,

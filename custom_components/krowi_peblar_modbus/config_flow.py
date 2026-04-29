@@ -29,7 +29,7 @@ from .const import (
 
 
 class KrowiPeblarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Krowi Peblar EV Charger."""
+    """Handle a config flow for Krowi Peblar Modbus."""
 
     VERSION = 1
 
