@@ -16,11 +16,11 @@ if __name__ == "__main__":
             except ValueError:
                 print("Failure")
 
-    for address in ModbusAddresses:
-        if address.value.encoder is not None:
-            print(f"Write '1' to {address.name}: ", end="")
-            try:
-                modbus.write(address.value, 1)
-                print("Success")
-            except ValueError:
-                print("Failure")
+    # for address in ModbusAddresses:
+    #     if address.value.encoder is not None:
+    #         print(f"Write '1' to {address.name}: ", end="")
+    #         try:
+    #             modbus.write(address.value, 1)
+    #             print("Success")
+    #         except ValueError:
+    #             print("Failure")

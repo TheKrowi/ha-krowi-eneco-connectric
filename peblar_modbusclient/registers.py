@@ -11,23 +11,25 @@ from functools import partial
 class CurrentLimitSource(Enum):
     UNKNOWN = 0
     FIXED_CABLE = 1
-    HIGH_TEMPERATURE = 2
-    INSTALLATION_LIMIT = 3
-    DYNAMIC_LOAD_BALANCING = 4
-    GROUP_LOAD_BALANCING = 5
-    CHARGING_CABLE = 6
+    THERMAL = 2
+    CONFIGURATION_LIMIT = 3
+    BOP = 4
+    LOAD_BALANCING = 5
+    USER_CABLE = 6
     OVERCURRENT_PROTECTION = 7
-    HARDWARE_LIMITATION = 8
+    HARDWARE_LIMIT = 8
     POWER_FACTOR = 9
     OCPP_SMART_CHARGING = 10
-    PHASE_IMBALANCE = 11
+    VDE_PHASE_IMBALANCE = 11
     LOCAL_SCHEDULED_CHARGING = 12
     SOLAR_CHARGING = 13
-    CURRENT_LIMITER = 14
+    CURRENT_SLIDER = 14
     LOCAL_REST_API = 15
     LOCAL_MODBUS_API = 16
-    EXTERNAL_POWER_LIMIT = 17
+    POWER_LIMIT_INPUT = 17
     HOUSEHOLD_POWER_LIMIT = 18
+    RESERVED = 19
+    INTERNAL_POWER_LIMITER = 20
 
 
 @dataclass
@@ -52,9 +54,12 @@ def boolean(val: (list[int] | list[bool] | None)) -> bool:
     assert (data == 0) or (data == 1)
     return bool(data)
 
-def current_source(val: (list[int] | list[bool] | None)) -> CurrentLimitSource:
+def current_source(val: (list[int] | list[bool] | None)) -> CurrentLimitSource | str:
     data = ModbusClientMixin.convert_from_registers(registers=val, data_type=ModbusClientMixin.DATATYPE.UINT16, word_order="big")
-    return CurrentLimitSource(data)
+    try:
+        return CurrentLimitSource(data)
+    except ValueError:
+        return f"Unknown({data})"
 
 def encode_int(val: int, num_registers: int):
     raw_bytes = val.to_bytes(num_registers*2, 'big')
@@ -91,8 +96,10 @@ class ModbusAddresses(Enum):
     sCurrentLimitActualAddress = ModbusAddress(30_113, 2, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT32))
 
     # Write
-    sModbusCurrentLimitAddress = ModbusAddress(40_000, 2, partial(encode_int, num_registers=1), partial(integer, type=ModbusClientMixin.DATATYPE.UINT32))
-    sForce1PhaseAddress = ModbusAddress(40_002, 1, int, boolean)
+    sModbusCurrentLimitAddress = ModbusAddress(40_000, 2, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT32))
+    sForce1PhaseAddress = ModbusAddress(40_002, 1, None, boolean)
+    sAliveTimeoutAddress = ModbusAddress(40_050, 2, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT32))
+    sFallbackCurrentAddress = ModbusAddress(40_052, 2, None, partial(integer, type=ModbusClientMixin.DATATYPE.INT32))
 
     # Diagnostic addresses
     sWlanSignalStrenthAddress = ModbusAddress(30_086, 2, None, partial(integer, type=ModbusClientMixin.DATATYPE.INT32))
@@ -113,5 +120,5 @@ class ModbusAddresses(Enum):
     sActiveError4Address = ModbusAddress(30108, 1, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT16))
     sActiveError5Address = ModbusAddress(30109, 1, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT16))
 
-    sModbusApiVersionMajor = ModbusAddress(30122, 1, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT16))
+    sModbusApiVersionMajor = ModbusAddress(30123, 1, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT16))
     sModbusApiVersionMinor = ModbusAddress(30124, 1, None, partial(integer, type=ModbusClientMixin.DATATYPE.UINT16))

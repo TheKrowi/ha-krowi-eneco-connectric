@@ -1,0 +1,23 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Peblar EV Charger",
+        "data": {
+          "host": "IP Address or Hostname",
+          "port": "Modbus TCP Port",
+          "interval_high": "High priority interval (s) — power, voltage, current",
+          "interval_medium": "Medium priority interval (s) — energy, settings",
+          "interval_low": "Low priority interval (s) — signal, warnings, errors",
+          "interval_very_low": "Very low priority interval (s) — firmware, serial number"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Peblar charger. Check the IP address and port."
+    },
+    "abort": {
+      "already_configured": "This Peblar charger is already configured."
+    }
+  }
+}
