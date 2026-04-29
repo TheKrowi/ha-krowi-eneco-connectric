@@ -99,7 +99,7 @@ _HIGH_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Current Phase 1",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLI_AMPERE,
+        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
     ),
     KrowiPeblarSensorDescription(
         key="current_phase2",
@@ -107,7 +107,7 @@ _HIGH_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Current Phase 2",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLI_AMPERE,
+        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
     ),
     KrowiPeblarSensorDescription(
         key="current_phase3",
@@ -115,7 +115,7 @@ _HIGH_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Current Phase 3",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLI_AMPERE,
+        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
     ),
     KrowiPeblarSensorDescription(
         key="current_limit_source",
@@ -132,7 +132,7 @@ _HIGH_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Current Limit Actual",
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.MILLI_AMPERE,
+        native_unit_of_measurement=UnitOfElectricCurrent.MILLIAMPERE,
         entity_category=EntityCategory.DIAGNOSTIC,
     ),
     KrowiPeblarSensorDescription(
