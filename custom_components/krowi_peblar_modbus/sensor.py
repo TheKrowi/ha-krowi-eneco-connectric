@@ -33,6 +33,7 @@ from .peblar_modbusclient.registers import CurrentLimitSource
 class KrowiPeblarSensorDescription(SensorEntityDescription):
     """Extends SensorEntityDescription with the register key."""
     register: str  # ModbusAddresses enum name
+    scale: float = 1.0  # multiplied against the raw register value before reporting
 
 
 # ── High priority (5 s) — real-time measurements ─────────────────────────────────
@@ -154,7 +155,8 @@ _MEDIUM_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Total Energy",
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
-        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        scale=0.001,
     ),
     KrowiPeblarSensorDescription(
         key="session_energy",
@@ -162,7 +164,8 @@ _MEDIUM_SENSORS: tuple[KrowiPeblarSensorDescription, ...] = (
         name="Session Energy",
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
-        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        scale=0.001,
     ),
 )
 
@@ -426,4 +429,6 @@ class KrowiPeblarSensor(CoordinatorEntity[KrowiPeblarCoordinator], SensorEntity)
         # Convert enum to its name string for display
         if isinstance(value, CurrentLimitSource):
             return value.name
+        if self.entity_description.scale != 1.0:
+            return value * self.entity_description.scale
         return value
