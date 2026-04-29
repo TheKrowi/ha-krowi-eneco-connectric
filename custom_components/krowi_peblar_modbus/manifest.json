@@ -1,7 +1,7 @@
 {
   "domain": "krowi_peblar_modbus",
   "name": "Krowi Peblar Modbus",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "config_flow": true,
   "documentation": "https://github.com/TheKrowi/ha-krowi-peblar",
   "issue_tracker": "https://github.com/TheKrowi/ha-krowi-peblar/issues",
