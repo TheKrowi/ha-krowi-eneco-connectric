@@ -113,6 +113,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     for coordinator in coordinators.values():
         await coordinator.async_config_entry_first_refresh()
 
+    # Initialize Modbus current limit to 6000 mA on every integration load
+    await coordinators[PRIORITY_MEDIUM].async_write_register(
+        ModbusAddresses.sModbusCurrentLimitAddress, 6000
+    )
+
     # Build DeviceInfo once from static (very_low) coordinator data
     vl_data = coordinators[PRIORITY_VERY_LOW].data or {}
     device_info = DeviceInfo(

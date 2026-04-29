@@ -1,7 +1,7 @@
 {
   "domain": "krowi_peblar",
-  "name": "Krowi Peblar EV Charger",
-  "version": "0.0.1",
+  "name": "Krowi Peblar Modbus",
+  "version": "0.0.2",
   "config_flow": true,
   "documentation": "https://github.com/TheKrowi/ha-krowi-peblar",
   "issue_tracker": "https://github.com/TheKrowi/ha-krowi-peblar/issues",
